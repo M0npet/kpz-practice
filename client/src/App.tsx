@@ -21,8 +21,11 @@ const queryClient = new QueryClient({
 	},
 });
 
-// Set VITE_DEVTOOLS=false to hide the floating devtools buttons (e.g. for screenshots).
-const showDevtools = import.meta.env.VITE_DEVTOOLS !== "false";
+// Floating devtools buttons: VITE_DEVTOOLS = "true" (both), "query" (TanStack Query only)
+// or "false" (none, e.g. for clean screenshots).
+const devtools = import.meta.env.VITE_DEVTOOLS ?? "true";
+const showRouterDevtools = devtools === "true";
+const showQueryDevtools = devtools === "true" || devtools === "query";
 
 type AppProps = { router: TanstackRouter };
 
@@ -30,18 +33,15 @@ const App = ({ router }: AppProps): FunctionComponent => {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<RouterProvider router={router} />
-			{showDevtools ? (
-				<>
-					<TanStackRouterDevelopmentTools
-						initialIsOpen={false}
-						position="bottom-right"
-						router={router}
-					/>
-					<ReactQueryDevtools
-						buttonPosition="bottom-left"
-						initialIsOpen={false}
-					/>
-				</>
+			{showRouterDevtools ? (
+				<TanStackRouterDevelopmentTools
+					initialIsOpen={false}
+					position="bottom-right"
+					router={router}
+				/>
+			) : null}
+			{showQueryDevtools ? (
+				<ReactQueryDevtools buttonPosition="bottom-left" initialIsOpen={false} />
 			) : null}
 		</QueryClientProvider>
 	);

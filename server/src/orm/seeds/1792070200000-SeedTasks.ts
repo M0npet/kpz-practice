@@ -3,7 +3,10 @@ import { MigrationInterface, QueryRunner, getRepository } from 'typeorm';
 import { Task } from '../entities/tasks/Task';
 import { User } from '../entities/users/User';
 
-type SeedTask = Pick<Task, 'title' | 'description' | 'status' | 'priority' | 'dueDate'> & { ownerEmail: string };
+type SeedTask = Pick<Task, 'title' | 'description' | 'status' | 'priority' | 'dueDate'> & {
+  ownerEmail: string;
+  completedAt?: string;
+};
 
 const SEED_TASKS: SeedTask[] = [
   {
@@ -37,6 +40,7 @@ const SEED_TASKS: SeedTask[] = [
     status: 'DONE',
     priority: 'LOW',
     dueDate: '2026-10-10',
+    completedAt: '2026-10-10T15:00:00Z',
   },
   {
     ownerEmail: 'admin@admin.com',
@@ -53,13 +57,14 @@ export class SeedTasks1792070200000 implements MigrationInterface {
     const userRepository = getRepository(User);
     const taskRepository = getRepository(Task);
 
-    for (const { ownerEmail, ...data } of SEED_TASKS) {
+    for (const { ownerEmail, completedAt, ...data } of SEED_TASKS) {
       const owner = await userRepository.findOne({ where: { email: ownerEmail } });
       if (!owner) continue;
       const task = taskRepository.create({
         ...data,
         ownerId: owner.id,
-        completedAt: data.status === 'DONE' ? new Date() : null,
+        // fixed dates keep the demo data identical on every machine
+        completedAt: completedAt ? new Date(completedAt) : null,
       });
       await taskRepository.save(task);
     }

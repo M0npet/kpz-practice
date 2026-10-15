@@ -11,7 +11,7 @@
 |---|---|
 | Склонувати репозиторії та запустити їх у режимі debugger | Обидва стартери запущені; додано скрипти `dev:local` / `dev:debug` і конфігурації VS Code ([`.vscode/launch.json`](.vscode/launch.json)) |
 | Дослідити роботу запитами та перевіркою стану на breakpoints | 4 сеанси налагодження з точками зупину, логи в [`docs/debug/`](docs/debug) |
-| Внести зміни в код і підтвердити очікуваний результат | 9 виправлень у стартерах, кожне перевірене (таблиця в розділі 3) |
+| Внести зміни в код і підтвердити очікуваний результат | 10 виправлень у стартерах, кожне перевірене (таблиця в розділі 3) |
 | Створити нову сутність на бекенді та CRUD через REST API | Сутність `Task`, міграція, сид, модуль `/v1/tasks` (controller → service → repository), 12 інтеграційних тестів |
 | Додати в клієнт UI для CRUD із запитами до сервера | Сторінки входу та задач: список, фільтр, пошук, створення, редагування, виконання, видалення; e2e-тест Playwright |
 
@@ -37,27 +37,35 @@
 
 ## Запуск
 
+Інструкції наведено для Windows (PowerShell); на Linux і macOS команди ті самі.
+
 ### Вимоги
 
-- Node.js 22.12+ (перевірено на 22.22; README клієнтського стартера рекомендує 24+), npm, pnpm;
-- PostgreSQL 14+ **або** Docker.
+- [Node.js](https://nodejs.org) 22.12 або новіший (LTS), разом із ним встановлюється npm;
+- pnpm: `npm install -g pnpm`;
+- [Git](https://git-scm.com);
+- PostgreSQL — через [Docker Desktop](https://www.docker.com/products/docker-desktop/) **або** [інсталятор PostgreSQL](https://www.postgresql.org/download/windows/).
 
-### 1. База даних і API
+### 1. База даних
 
-**Варіант А — Docker** (як передбачено стартером). Контейнер сам виконає міграції, сиди (користувачі та демо-задачі) і запустить API на `:4000`:
+**Варіант А — Docker Desktop.** Одна команда створює базу з даними з `server/.env`:
 
-```bash
-cd server
-docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+```powershell
+docker run --name kpz-postgres -e POSTGRES_USER=walter -e POSTGRES_PASSWORD=white -e POSTGRES_DB=boilerplate -p 5432:5432 -d postgres:16
 ```
 
-**Варіант Б — локальний PostgreSQL** (так запускалось під час роботи):
+Наступного разу достатньо `docker start kpz-postgres`.
 
-```bash
-# один раз: користувач і база з server/.env
-sudo -u postgres psql -c "CREATE ROLE walter LOGIN SUPERUSER PASSWORD 'white';" \
-                      -c "CREATE DATABASE boilerplate OWNER walter;"
+**Варіант Б — інсталятор PostgreSQL.** Після встановлення відкрити *SQL Shell (psql)* з меню «Пуск», увійти користувачем `postgres` і виконати:
 
+```sql
+CREATE ROLE walter LOGIN SUPERUSER PASSWORD 'white';
+CREATE DATABASE boilerplate OWNER walter;
+```
+
+### 2. Сервер (API)
+
+```powershell
 cd server
 npm ci
 npm run migration:run:dev   # таблиці users і tasks
@@ -65,11 +73,13 @@ npm run seed:run:dev        # 10 користувачів + 5 демо-зада�
 npm run dev:local           # API на http://localhost:4000
 ```
 
-Перевірка: `./scripts/tasks-api-demo.sh` проходить увесь CRUD через curl.
+Перевірка всього CRUD через HTTP: `npm run demo:api` (в іншому вікні терміналу).
 
-### 2. Клієнт
+Повернути демо-задачі до початкового стану: `npm run db:demo-reset`.
 
-```bash
+### 3. Клієнт
+
+```powershell
 cd client
 pnpm install
 pnpm dev                    # http://localhost:5173
@@ -92,18 +102,38 @@ pnpm dev                    # http://localhost:5173
 
 - *Server: launch with debugger* — запускає `npm run dev:local` і автоматично під'єднується до процесу ts-node-dev;
 - *Server: attach to :9229* — для `npm run dev:debug` (сервер з `--inspect=127.0.0.1:9229`);
-- *Client: Chrome on Vite dev server* — Chrome з відладкою TSX через source maps;
+- *Client: Chrome on Vite dev server* — браузер з відладкою TSX через source maps;
 - *Full stack* — сервер і клієнт разом.
 
 **WebStorm.** Сервер: *Run → Edit Configurations → + npm*, скрипт `dev:local`, кнопка *Debug*. Клієнт: `pnpm dev`, потім конфігурація *JavaScript Debug* з URL `http://localhost:5173`.
 
-**Без IDE.** `npm run dev:debug`, потім `chrome://inspect` → *Open dedicated DevTools for Node*.
+**Без IDE.** `npm run dev:debug`, потім у Chrome або Edge відкрити `chrome://inspect` (`edge://inspect`) → *Open dedicated DevTools for Node*.
+
+### Скріншоти й протоколи налагодження
+
+Скріншоти в [`docs/screenshots/`](docs/screenshots) знімаються автоматично тим самим сценарієм, що й у звіті (на Windows — у встановленому Microsoft Edge):
+
+```powershell
+cd client
+pnpm shots                  # потрібен запущений API; демо-дані скидаються автоматично
+```
+
+Скріншот 01 (помилка стартера) знімається вручну: повернути вихідну версію одного файлу, відкрити `http://localhost:5173`, зробити знімок (Win + Shift + S) і зберегти як `docs/screenshots/01-client-starter-broken.png`:
+
+```powershell
+git checkout $(git rev-list --max-parents=0 HEAD) -- client/src/common/i18n.ts
+cd client; pnpm dev
+# ...знімок екрана...
+git checkout HEAD -- client/src/common/i18n.ts
+```
+
+Протоколи сеансів 1, 3 і 4 у [`docs/debug/`](docs/debug) оновлюються командою `npm run debug:sessions` (у каталозі `server`, при запущеному `npm run dev:debug`).
 
 ---
 
 ## 2. Дослідження стартерів у режимі налагодження
 
-Сервер запускався під інспектором Node (`dev:debug`), точки зупину ставились у TypeScript-файлах, після чого надсилались HTTP-запити, а стан застосунку перевірявся на паузі. Протокол сеансів знято автоматично через Chrome DevTools Protocol — той самий, яким користуються VS Code і WebStorm, — тому в логах видно стек викликів, локальні змінні та значення виразів на момент зупинки.
+Сервер запускався під інспектором Node (`dev:debug`), точки зупину ставились у TypeScript-файлах, після чого надсилались HTTP-запити, а стан застосунку перевірявся на паузі. Протоколи сеансів записує скрипт [`server/scripts/debug-sessions/run.mjs`](server/scripts/debug-sessions/run.mjs) через Chrome DevTools Protocol — той самий протокол, яким користуються VS Code і WebStorm, — тому в логах видно стек викликів, локальні змінні та значення виразів на момент зупинки.
 
 | Сеанс | Точка зупину | Що з'ясовано |
 |---|---|---|
@@ -124,7 +154,7 @@ pnpm dev                    # http://localhost:5173
 
 | # | Проблема | Як виявлено | Виправлення | Перевірка |
 |---|---|---|---|---|
-| 1 | Клієнт не запускається: імпорт `common/utils`, а файл називається `common/utilities.ts` | Vite: *Failed to resolve import* (скріншот 01) | Виправлено імпорти | Сторінка відкривається (скріншот 02), `tsc` без помилок |
+| 1 | Клієнт не запускається: імпорт `common/utils`, а файл називається `common/utilities.ts` | Vite: *Failed to resolve import* (скріншот 01) | Виправлено імпорти | Сторінка відкривається, `tsc` без помилок |
 | 2 | Тести сервера падають поза Docker: `ormconfig` читає `process.env` до завантаження `.env` | `npm test` → *no PostgreSQL user name specified* | `mocha --require dotenv/config` | 8/8 тестів стартера проходять |
 | 3 | `index.ts` і тести одночасно викликають `createConnection('default')`, TypeORM замінює ще не відкрите з'єднання | Читання коду `ConnectionManager.create` | Один спільний `Promise` у `dbCreateConnection` | Тести стабільні |
 | 4 | Невалідний JSON → HTML 500 + stack trace | Сеанс налагодження 2 | `errorHandler` обробляє будь-які помилки; stack приховується поза `NODE_ENV=dev` | Сеанс 3; тест `errorHandler.test.ts` |
@@ -133,6 +163,7 @@ pnpm dev                    # http://localhost:5173
 | 7 | `migration:generate` пропонував `DROP COLUMN email/username/name` — сутність `User` розійшлась зі схемою (немає `length`) | Перша автогенерована міграція | Довжини колонок у `User.ts` приведено до міграції | Повторна генерація містить лише таблицю `tasks` |
 | 8 | Vitest падає на кожному файлі: `import matchers from '@testing-library/jest-dom/matchers'` дає `undefined` у jest-dom v6 | `pnpm test:unit` | `import '@testing-library/jest-dom/vitest'` | 5/5 unit-тестів |
 | 9 | `npm install` у `server/` падає: `husky install` не знаходить `.git` (монорепозиторій, Docker-збірка) | `npm run prepare` → exit 1 | `husky install \|\| echo …` | `npm ci` у чистому клоні проходить |
+| 10 | npm-скрипти сервера не працюють у Windows: змінні у вигляді `VAR=value команда`, glob в одинарних лапках, запуск `.bin/typeorm` через ts-node | запуск скриптів у PowerShell | `cross-env`, подвійні лапки, `typeorm/cli.js`; `.gitattributes` фіксує LF-кінці рядків | скрипти й тести запускаються у Windows |
 
 ---
 
@@ -197,7 +228,7 @@ DB  ◀─  orm/entities/tasks/Task.ts
 - символи `%` і `_` у пошуку екрануються — це текст, а не шаблон `LIKE`;
 - відкриті задачі в списку йдуть першими, виконані — нижче.
 
-Приклад (вивід [`server/scripts/tasks-api-demo.sh`](server/scripts/tasks-api-demo.sh), скорочено):
+Приклад (вивід `npm run demo:api` — скрипт [`server/scripts/tasks-api-demo.mjs`](server/scripts/tasks-api-demo.mjs), скорочено):
 
 ```
 $ POST /v1/tasks
@@ -260,13 +291,13 @@ client/src/
 
 | Набір | Команда | Результат |
 |---|---|---|
-| Сервер: інтеграційні тести (mocha + supertest, реальна БД) | `cd server && PORT=4100 PG_HOST=localhost npm test` | **22 passing** (8 стартера + 2 errorHandler + 12 tasks) |
+| Сервер: інтеграційні тести (mocha + supertest, реальна БД) | `cd server && npm run test:local` | **22 passing** (8 стартера + 2 errorHandler + 12 tasks) |
 | Клієнт: unit-тести (Vitest) | `cd client && pnpm exec vitest run src/` | **5 passed** |
 | Клієнт: e2e (Playwright, реальні API і UI) | `cd client && pnpm test:e2e` | **2 passed** |
-| Сервер: сценарій CRUD через curl | `cd server && ./scripts/tasks-api-demo.sh` | усі кроки, останній — `HTTP 404` після видалення |
+| Сервер: сценарій CRUD через HTTP | `cd server && npm run demo:api` | усі кроки, останній — `HTTP 404` після видалення |
 | Статичний аналіз | `npm run lint`, `pnpm lint`, `tsc --noEmit` | без помилок |
 
-`PORT=4100` потрібен, якщо dev-сервер уже займає `:4000`. E2E-тест проходить повний сценарій українською: вхід, порожня форма → помилка, створення, редагування, виконання, фільтр, пошук, видалення, вихід. Для e2e потрібен браузер: `npx playwright install chromium` або `CHROMIUM_PATH=/usr/bin/chromium pnpm test:e2e`.
+`test:local` запускає тестовий сервер на порту 4100, тому не заважає dev-серверу на `:4000`. E2E-тест проходить повний сценарій українською: вхід, порожня форма → помилка, створення, редагування, виконання, фільтр, пошук, видалення, вихід. На Windows Playwright використовує встановлений Microsoft Edge; на інших системах потрібен `npx playwright install chromium`.
 
 ---
 
@@ -309,5 +340,5 @@ client/src/
 - Колонки `created_at`/`updated_at` таблиці `users` зі стартера мають тип `timestamp` без часової зони — та сама проблема зі зсувом, що й у пункті про `timestamptz`; таблицю `users` не змінювали.
 - `checkJwt` стартера повертає **400**, а не 401, якщо заголовок `Authorization` відсутній; поведінку залишено як у стартері.
 - JWT зберігається в `sessionStorage`. Це простіше за httpOnly-cookie, але вразливе до XSS (тема лекції про сесії).
-- Варіант запуску через Docker не перевірявся: у середовищі розробки був недоступний Docker Hub. Використовується `docker-compose` стартера без змін, міграція й сид задач підхоплюються автоматично. Варіант із локальним PostgreSQL перевірено повністю.
+- Повна Docker-конфігурація стартера (`docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build` у каталозі `server`) збережена: контейнер сам виконує міграції й сиди, включно із задачами.
 - Продакшн-збірка клієнта — один бандл ~530 КБ (Vite попереджає про розмір); code splitting не налаштовувався.

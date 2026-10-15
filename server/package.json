@@ -4,6 +4,8 @@
   "description": "RESTful API boilerplate with Typescript, TypeORM, ExpressJs & Mocha.",
   "scripts": {
     "dev": "debug=* NODE_PATH=./src ts-node-dev --respawn ./src/index.ts",
+    "dev:local": "PG_HOST=localhost npm run dev",
+    "dev:debug": "PG_HOST=localhost NODE_PATH=./src ts-node-dev --inspect=127.0.0.1:9229 --respawn ./src/index.ts",
     "build": "rimraf dist && tsc",
     "start": "NODE_PATH=./dist node ./dist/index.js",
     "prepare": "husky install",

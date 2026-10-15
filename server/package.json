@@ -8,7 +8,7 @@
     "dev:debug": "PG_HOST=localhost NODE_PATH=./src ts-node-dev --inspect=127.0.0.1:9229 --respawn ./src/index.ts",
     "build": "rimraf dist && tsc",
     "start": "NODE_PATH=./dist node ./dist/index.js",
-    "prepare": "husky install",
+    "prepare": "husky install || echo \"husky: git hooks skipped (no .git in this folder)\"",
     "lint": "eslint --max-warnings 0 . && npm run tsc",
     "lint-fix": "eslint --fix .",
     "lint-staged-husky": "lint-staged",

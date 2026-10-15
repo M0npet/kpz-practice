@@ -118,10 +118,13 @@ cd client
 pnpm shots                  # потрібен запущений API; демо-дані скидаються автоматично
 ```
 
-Скріншот 01 (помилка стартера) знімається вручну. У файлі `client/src/common/i18n.ts` тимчасово повернути імпорт стартера — замінити `"./utilities"` на `"./utils"`, — відкрити `http://localhost:5173`, зробити знімок (Win + Shift + S), зберегти як `docs/screenshots/01-client-starter-broken.png` і повернути файл:
+Скріншот 01 (помилка стартера) знято вручну з оригінального клієнтського стартера, без змін у коді:
 
 ```powershell
-git checkout -- client/src/common/i18n.ts
+git clone https://github.com/RicardoValdovinos/vite-react-boilerplate C:\kpz\starter
+cd C:\kpz\starter
+pnpm install
+pnpm dev                    # відкрити http://localhost:5173 — помилка Vite про "./utils"
 ```
 
 Протоколи сеансів 1, 3 і 4 у [`docs/debug/`](docs/debug) оновлюються командою `npm run debug:sessions` (у каталозі `server`, при запущеному `npm run dev:debug`).

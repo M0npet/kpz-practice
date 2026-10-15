@@ -20,7 +20,7 @@ export const Toaster = (): FunctionComponent => {
 			{toasts.map((item) => (
 				<div
 					key={item.id}
-					className="pointer-events-auto flex items-center gap-2 rounded-md bg-ink px-3 py-2 text-sm text-white shadow-lg"
+					className="pointer-events-auto flex items-center gap-2 rounded-md bg-ink px-3 py-2 text-sm text-on-ink shadow-lg"
 					role="status"
 				>
 					{item.tone === "success" ? (
@@ -37,7 +37,7 @@ export const Toaster = (): FunctionComponent => {
 					<span>{item.message}</span>
 					<button
 						aria-label={t("app.close")}
-						className="ml-1 rounded p-0.5 text-white/70 hover:text-white"
+						className="ml-1 rounded p-0.5 text-on-ink/70 hover:text-on-ink"
 						type="button"
 						onClick={() => {
 							dismiss(item.id);

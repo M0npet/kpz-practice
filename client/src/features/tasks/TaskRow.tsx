@@ -16,7 +16,7 @@ const priorityBar: Record<TaskPriority, string> = {
 const StatusMark = ({ task }: { task: Task }): FunctionComponent => {
 	if (task.status === "DONE") {
 		return (
-			<span className="flex size-6 items-center justify-center rounded-full bg-moss text-white">
+			<span className="flex size-6 items-center justify-center rounded-full bg-moss text-on-ink">
 				<CheckIcon aria-hidden="true" className="size-4" />
 			</span>
 		);

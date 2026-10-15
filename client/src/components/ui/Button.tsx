@@ -4,10 +4,10 @@ import type { FunctionComponent } from "../../common/types";
 type Variant = "primary" | "secondary" | "danger" | "icon";
 
 const variants: Record<Variant, string> = {
-	primary: "bg-ink text-white hover:bg-ink/90 px-4 py-2",
+	primary: "bg-ink text-on-ink hover:bg-ink/90 px-4 py-2",
 	secondary:
 		"border border-ink/25 bg-sheet text-ink hover:border-ink/60 px-4 py-2",
-	danger: "bg-pencil text-white hover:bg-pencil/90 px-4 py-2",
+	danger: "bg-pencil text-on-ink hover:bg-pencil/90 px-4 py-2",
 	icon: "text-ink-soft hover:bg-paper hover:text-ink p-2",
 };
 

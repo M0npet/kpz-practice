@@ -5,6 +5,7 @@
 /*
  * "Engineering notebook": graph-paper background, navy ink, one yellow highlighter.
  * The highlighter is used in exactly two places — the app title and the active filter.
+ * The dark theme (below) is the same notebook at night; it follows the OS setting.
  */
 @theme {
 	--font-sans: "Onest Variable", system-ui, sans-serif;
@@ -19,9 +20,28 @@
 	--color-pencil: #c23f2b;
 	--color-amber: #c98316;
 	--color-moss: #3f7d55;
+	--color-on-ink: #ffffff; /* text on filled ink/pencil/moss surfaces */
+	--color-scrim: rgb(27 42 68 / 0.3); /* backdrop behind dialogs */
 }
 
 @layer base {
+	@media (prefers-color-scheme: dark) {
+		:root {
+			color-scheme: dark; /* native controls: date picker, select, scrollbars */
+			--color-paper: #0f1828;
+			--color-grid: #213049;
+			--color-sheet: #16223a;
+			--color-ink: #e3e9f2;
+			--color-ink-soft: #9aabc4;
+			--color-marker: #7a6414;
+			--color-pencil: #f07f6a;
+			--color-amber: #e0a73f;
+			--color-moss: #6cbf8a;
+			--color-on-ink: #0f1828;
+			--color-scrim: rgb(0 0 0 / 0.55);
+		}
+	}
+
 	html {
 		color: var(--color-ink);
 		font-family: var(--font-sans);

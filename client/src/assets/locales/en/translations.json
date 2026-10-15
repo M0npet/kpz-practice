@@ -1,5 +1,102 @@
 {
-    "home": {
-        "greeting": "Hello, world!"
-    }
+	"app": {
+		"title": "Tasks",
+		"close": "Close",
+		"language": "Interface language"
+	},
+	"auth": {
+		"heading": "Sign in",
+		"intro": "Sign in to see your tasks.",
+		"email": "Email",
+		"password": "Password",
+		"submit": "Sign in",
+		"submitting": "Signing in…",
+		"demo": "Fill in a test account",
+		"demoHint": "Seeded test accounts: standard@standard.com or admin@admin.com, password pass1.",
+		"logout": "Sign out",
+		"invalidCredentials": "Wrong email or password.",
+		"sessionExpired": "Your session has ended. Sign in again.",
+		"errors": {
+			"emailInvalid": "Enter an email like name@example.com",
+			"passwordRequired": "Enter your password"
+		}
+	},
+	"tasks": {
+		"new": "New task",
+		"search": "Search by title",
+		"filtersLabel": "Filter by status",
+		"all": "All",
+		"status": {
+			"TODO": "To do",
+			"IN_PROGRESS": "In progress",
+			"DONE": "Done"
+		},
+		"priority": {
+			"LOW": "Low",
+			"MEDIUM": "Medium",
+			"HIGH": "High"
+		},
+		"priorityOf": "Priority: {{value}}",
+		"due": "due {{date}}",
+		"overdue": "overdue, was due {{date}}",
+		"completedOn": "done {{date}}",
+		"markDone": "Mark “{{title}}” as done",
+		"reopen": "Move “{{title}}” back to to do",
+		"edit": "Edit “{{title}}”",
+		"delete": "Delete “{{title}}”",
+		"owner": "Owner: {{name}}",
+		"count_one": "{{count}} task",
+		"count_few": "{{count}} tasks",
+		"count_many": "{{count}} tasks",
+		"count_other": "{{count}} tasks",
+		"empty": "Nothing here yet. Create your first task with the “New task” button.",
+		"emptyFiltered": "No tasks match this filter.",
+		"resetFilters": "Clear filter",
+		"loading": "Loading tasks…",
+		"loadError": "Couldn't load tasks: {{reason}}",
+		"retry": "Try again",
+		"form": {
+			"createTitle": "New task",
+			"editTitle": "Edit task",
+			"title": "Title",
+			"description": "Description",
+			"optional": "optional",
+			"status": "Status",
+			"priority": "Priority",
+			"dueDate": "Due date",
+			"create": "Create task",
+			"save": "Save changes",
+			"saving": "Saving…",
+			"cancel": "Cancel",
+			"errors": {
+				"titleRequired": "Enter a task title",
+				"titleTooLong": "Title must be 120 characters or fewer",
+				"descriptionTooLong": "Description must be 2000 characters or fewer",
+				"dueDateInvalid": "Enter a date as YYYY-MM-DD"
+			}
+		},
+		"deleteDialog": {
+			"title": "Delete this task?",
+			"body": "“{{title}}” will be deleted for good.",
+			"confirm": "Delete",
+			"deleting": "Deleting…",
+			"cancel": "Cancel"
+		},
+		"toast": {
+			"created": "Task created",
+			"updated": "Changes saved",
+			"deleted": "Task deleted",
+			"done": "Task done",
+			"reopened": "Task moved back to to do"
+		}
+	},
+	"errors": {
+		"network": "the server is not responding. Check that the API is running at {{url}}",
+		"notFound": "Task not found — it may have been deleted already.",
+		"generic": "Something went wrong: {{message}}"
+	},
+	"notFound": {
+		"title": "There is no such page",
+		"back": "Go to tasks"
+	}
 }

@@ -1,1 +1,54 @@
 @import "tailwindcss";
+@import "@fontsource-variable/onest";
+@import "@fontsource-variable/unbounded";
+
+/*
+ * "Engineering notebook": graph-paper background, navy ink, one yellow highlighter.
+ * The highlighter is used in exactly two places — the app title and the active filter.
+ */
+@theme {
+	--font-sans: "Onest Variable", system-ui, sans-serif;
+	--font-display: "Unbounded Variable", "Onest Variable", sans-serif;
+
+	--color-paper: #edf1f5;
+	--color-grid: #dbe2ea;
+	--color-sheet: #ffffff;
+	--color-ink: #1b2a44;
+	--color-ink-soft: #56667f;
+	--color-marker: #ffe36e;
+	--color-pencil: #c23f2b;
+	--color-amber: #c98316;
+	--color-moss: #3f7d55;
+}
+
+@layer base {
+	html {
+		color: var(--color-ink);
+		font-family: var(--font-sans);
+		-webkit-font-smoothing: antialiased;
+	}
+
+	body {
+		min-height: 100vh;
+		background-color: var(--color-paper);
+		background-image:
+			linear-gradient(var(--color-grid) 1px, transparent 1px),
+			linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+		background-size: 24px 24px;
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--color-ink);
+		outline-offset: 2px;
+	}
+}
+
+@utility highlight {
+	background-image: linear-gradient(
+		transparent 52%,
+		var(--color-marker) 52%,
+		var(--color-marker) 92%,
+		transparent 92%
+	);
+	box-decoration-break: clone;
+}

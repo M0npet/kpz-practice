@@ -1,0 +1,102 @@
+{
+	"app": {
+		"title": "Задачі",
+		"close": "Закрити",
+		"language": "Мова інтерфейсу"
+	},
+	"auth": {
+		"heading": "Вхід",
+		"intro": "Увійдіть, щоб побачити свої задачі.",
+		"email": "Email",
+		"password": "Пароль",
+		"submit": "Увійти",
+		"submitting": "Входимо…",
+		"demo": "Заповнити тестовим акаунтом",
+		"demoHint": "Тестові акаунти з сиду: standard@standard.com або admin@admin.com, пароль pass1.",
+		"logout": "Вийти",
+		"invalidCredentials": "Неправильний email або пароль.",
+		"sessionExpired": "Сесія закінчилась. Увійдіть ще раз.",
+		"errors": {
+			"emailInvalid": "Введіть email у форматі name@example.com",
+			"passwordRequired": "Введіть пароль"
+		}
+	},
+	"tasks": {
+		"new": "Нова задача",
+		"search": "Пошук за назвою",
+		"filtersLabel": "Фільтр за статусом",
+		"all": "Усі",
+		"status": {
+			"TODO": "До виконання",
+			"IN_PROGRESS": "В роботі",
+			"DONE": "Готово"
+		},
+		"priority": {
+			"LOW": "Низький",
+			"MEDIUM": "Середній",
+			"HIGH": "Високий"
+		},
+		"priorityOf": "Пріоритет: {{value}}",
+		"due": "до {{date}}",
+		"overdue": "прострочено, до {{date}}",
+		"completedOn": "виконано {{date}}",
+		"markDone": "Позначити «{{title}}» виконаною",
+		"reopen": "Повернути «{{title}}» до виконання",
+		"edit": "Редагувати «{{title}}»",
+		"delete": "Видалити «{{title}}»",
+		"owner": "Автор: {{name}}",
+		"count_one": "{{count}} задача",
+		"count_few": "{{count}} задачі",
+		"count_many": "{{count}} задач",
+		"count_other": "{{count}} задачі",
+		"empty": "Тут поки порожньо. Створіть першу задачу кнопкою «Нова задача».",
+		"emptyFiltered": "Немає задач, що відповідають фільтру.",
+		"resetFilters": "Скинути фільтр",
+		"loading": "Завантажуємо задачі…",
+		"loadError": "Не вдалося завантажити задачі: {{reason}}",
+		"retry": "Спробувати ще раз",
+		"form": {
+			"createTitle": "Нова задача",
+			"editTitle": "Редагування задачі",
+			"title": "Назва",
+			"description": "Опис",
+			"optional": "необов'язково",
+			"status": "Статус",
+			"priority": "Пріоритет",
+			"dueDate": "Термін",
+			"create": "Створити задачу",
+			"save": "Зберегти зміни",
+			"saving": "Зберігаємо…",
+			"cancel": "Скасувати",
+			"errors": {
+				"titleRequired": "Введіть назву задачі",
+				"titleTooLong": "Назва має бути не довшою за 120 символів",
+				"descriptionTooLong": "Опис має бути не довшим за 2000 символів",
+				"dueDateInvalid": "Вкажіть дату у форматі РРРР-ММ-ДД"
+			}
+		},
+		"deleteDialog": {
+			"title": "Видалити задачу?",
+			"body": "«{{title}}» буде видалено назавжди.",
+			"confirm": "Видалити",
+			"deleting": "Видаляємо…",
+			"cancel": "Скасувати"
+		},
+		"toast": {
+			"created": "Задачу створено",
+			"updated": "Зміни збережено",
+			"deleted": "Задачу видалено",
+			"done": "Задачу виконано",
+			"reopened": "Задачу повернуто до виконання"
+		}
+	},
+	"errors": {
+		"network": "сервер не відповідає. Перевірте, що API запущено на {{url}}",
+		"notFound": "Задачу не знайдено — можливо, її вже видалили.",
+		"generic": "Щось пішло не так: {{message}}"
+	},
+	"notFound": {
+		"title": "Такої сторінки немає",
+		"back": "Перейти до задач"
+	}
+}

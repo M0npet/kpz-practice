@@ -1,17 +1,24 @@
-import { Connection, createConnection, getConnectionManager } from 'typeorm';
+import { Connection, createConnection } from 'typeorm';
 
 import config from './config/ormconfig';
 
-export const dbCreateConnection = async (): Promise<Connection | null> => {
-  try {
-    const conn = await createConnection(config);
-    console.log(`Database connection success. Connection name: '${conn.name}' Database: '${conn.options.database}'`);
-  } catch (err) {
-    if (err.name === 'AlreadyHasActiveConnectionError') {
-      const activeConnection = getConnectionManager().get(config.name);
-      return activeConnection;
-    }
-    console.log(err);
+// One shared promise for the whole process. Both src/index.ts and the tests call
+// dbCreateConnection(); without the cache the second call raced the first one and
+// TypeORM replaced a half-opened connection ("No repository for "User" was found").
+let connectionPromise: Promise<Connection | null> | null = null;
+
+export const dbCreateConnection = (): Promise<Connection | null> => {
+  if (!connectionPromise) {
+    connectionPromise = createConnection(config)
+      .then((conn) => {
+        console.log(`Database connection success. Connection name: '${conn.name}' Database: '${conn.options.database}'`);
+        return conn;
+      })
+      .catch((err) => {
+        console.log(err);
+        connectionPromise = null;
+        return null;
+      });
   }
-  return null;
+  return connectionPromise;
 };

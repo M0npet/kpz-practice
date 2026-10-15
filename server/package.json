@@ -13,7 +13,7 @@
     "tsc": "tsc --noEmit",
     "format-lint": "prettier --config .prettierrc -l --ignore-unknown .",
     "format-fix": "prettier --config .prettierrc --write --ignore-unknown .",
-    "test": "NODE_PATH=./src mocha --require ts-node/register 'src/**/*.test.ts' --timeout 20000 --exit",
+    "test": "NODE_PATH=./src mocha --require dotenv/config --require ts-node/register 'src/**/*.test.ts' --timeout 20000 --exit",
     "commit": "git-cz",
     "docker:dev": "docker-compose --file docker-compose.yml --file docker-compose.dev.yml --compatibility up --build",
     "docker:stage": "docker-compose --file docker-compose.yml --file docker-compose.stage.yml --compatibility up --build",

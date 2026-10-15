@@ -8,8 +8,11 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
+  // Lengths mirror the CreateUsers migration. Without them the entity drifted from the
+  // real schema and `migration:generate` produced DROP COLUMN email/username/name.
   @Column({
     unique: true,
+    length: 100,
   })
   email: string;
 
@@ -19,11 +22,13 @@ export class User {
   @Column({
     nullable: true,
     unique: true,
+    length: 40,
   })
   username: string;
 
   @Column({
     nullable: true,
+    length: 40,
   })
   name: string;
 

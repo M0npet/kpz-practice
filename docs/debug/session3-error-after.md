@@ -1,6 +1,6 @@
 ### Сеанс 3. Той самий запит після виправлення errorHandler
 
-Breakpoint: `server/src/middleware/errorHandler.ts:28`
+Breakpoint: `server/src/middleware/errorHandler.ts:29`
 
 ```ts
 return res.status(customError.HttpStatusCode).json(body);
@@ -42,6 +42,6 @@ Watch expressions evaluated on the paused frame:
 After resume → `HTTP 400`, Content-Type: `application/json; charset=utf-8`
 
 ```
-{"errorType":"General","errorMessage":"Invalid JSON in request body","errors":["Expected double-quoted property name in JSON at position 29 (line 1 column 30)"],"errorRaw":null,"errorsValidation":null,"stack":"CustomError: Invalid JSON in request body\n    at errorHandler (…/server/src/middleware/errorHandler.ts:16:9)\n    at Layer.handle_error (…/server/node_module… (1190 bytes total)
+{"errorType":"General","errorMessage":"Invalid JSON in request body","errors":["Expected double-quoted property name in JSON at position 29 (line 1 column 30)"],"errorRaw":null,"errorsValidation":null,"stack":"CustomError: Invalid JSON in request body\n    at errorHandler (…/server/src/middleware/errorHandler.ts:15:9)\n    at Layer.handle_error (…/server/node_module… (1190 bytes total)
 ```
 

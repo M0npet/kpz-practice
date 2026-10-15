@@ -6,7 +6,7 @@ Breakpoint: `server/src/modules/tasks/task.service.ts:58`
 Object.assign(task, dto);
 ```
 
-Request: `PATCH http://127.0.0.1:4000/v1/tasks/26` body: `{"status":"DONE"}`
+Request: `PATCH http://127.0.0.1:4000/v1/tasks/47` body: `{"status":"DONE"}`
 
 Call stack at pause (top frames):
 
@@ -23,7 +23,7 @@ Watch expressions evaluated on the paused frame:
 | Expression | Value |
 |---|---|
 | `user` | `{"id":2,"name":"Jesse Pinkman","email":"standard@standard.com","role":"STANDARD","created_at":"2026-10-15T11:03:50.971Z"}` |
-| `id` | `26` |
+| `id` | `47` |
 | `dto` | `{"status":"DONE"}` |
 | `task.ownerId === user.id` | `true` |
 | `task.status` | `"IN_PROGRESS"` |
@@ -33,6 +33,6 @@ Watch expressions evaluated on the paused frame:
 After resume → `HTTP 200`, Content-Type: `application/json; charset=utf-8`
 
 ```
-{"message":"Task successfully updated.","data":{"id":26,"title":"Задача для налагодження","description":null,"status":"DONE","priority":"MEDIUM","dueDate":null,"completedAt":"2026-10-15T13:17:32.421Z","createdAt":"2026-10-15T13:17:30.995Z","updatedAt":"2026-10-15T13:17:32.422Z","owner":{"id":2,"name":"Jesse Pinkman","email":"standard@standard.com"}}}
+{"message":"Task successfully updated.","data":{"id":47,"title":"Задача для налагодження","description":null,"status":"DONE","priority":"MEDIUM","dueDate":null,"completedAt":"2026-10-15T13:35:29.093Z","createdAt":"2026-10-15T13:35:27.807Z","updatedAt":"2026-10-15T13:35:29.096Z","owner":{"id":2,"name":"Jesse Pinkman","email":"standard@standard.com"}}}
 ```
 

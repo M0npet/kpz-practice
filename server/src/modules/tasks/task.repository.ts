@@ -31,7 +31,11 @@ export class TaskRepository {
   }
 
   findMany(filter: TaskFilter): Promise<Task[]> {
-    const query = this.baseQuery().orderBy('task.createdAt', 'DESC').addOrderBy('task.id', 'DESC');
+    // Open tasks first (completedAt is NULL), newest first; done tasks below, recently finished first.
+    const query = this.baseQuery()
+      .orderBy('task.completedAt', 'DESC', 'NULLS FIRST')
+      .addOrderBy('task.createdAt', 'DESC')
+      .addOrderBy('task.id', 'DESC');
 
     if (filter.ownerId !== undefined) {
       query.andWhere('task.ownerId = :ownerId', { ownerId: filter.ownerId });

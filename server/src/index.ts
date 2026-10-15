@@ -16,7 +16,9 @@ import { dbCreateConnection } from './orm/dbCreateConnection';
 import routes from './routes';
 
 export const app = express();
-app.use(cors());
+// `token` is the refreshed JWT that checkJwt sends back; without exposing it
+// browser code cannot read the header and the session would expire after 15 min.
+app.use(cors({ exposedHeaders: ['token'] }));
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

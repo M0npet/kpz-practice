@@ -118,13 +118,10 @@ cd client
 pnpm shots                  # потрібен запущений API; демо-дані скидаються автоматично
 ```
 
-Скріншот 01 (помилка стартера) знімається вручну: повернути вихідну версію одного файлу, відкрити `http://localhost:5173`, зробити знімок (Win + Shift + S) і зберегти як `docs/screenshots/01-client-starter-broken.png`:
+Скріншот 01 (помилка стартера) знімається вручну. У файлі `client/src/common/i18n.ts` тимчасово повернути імпорт стартера — замінити `"./utilities"` на `"./utils"`, — відкрити `http://localhost:5173`, зробити знімок (Win + Shift + S), зберегти як `docs/screenshots/01-client-starter-broken.png` і повернути файл:
 
 ```powershell
-git checkout $(git rev-list --max-parents=0 HEAD) -- client/src/common/i18n.ts
-cd client; pnpm dev
-# ...знімок екрана...
-git checkout HEAD -- client/src/common/i18n.ts
+git checkout -- client/src/common/i18n.ts
 ```
 
 Протоколи сеансів 1, 3 і 4 у [`docs/debug/`](docs/debug) оновлюються командою `npm run debug:sessions` (у каталозі `server`, при запущеному `npm run dev:debug`).

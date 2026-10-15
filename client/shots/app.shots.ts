@@ -23,6 +23,7 @@ const open = async (
 	const context = await browser.newContext({
 		viewport: { width: 1280, height: 820 },
 		deviceScaleFactor: 1,
+		colorScheme: "dark", // the report uses the dark theme (it follows the OS setting)
 		...options,
 		locale,
 	});
@@ -148,6 +149,7 @@ test("report screenshots", async ({ browser }) => {
 		})
 		.click();
 	await expect(page.getByText("Задачу виконано")).toBeVisible();
+	await waitToastGone(page, "Задачу виконано");
 	const filters = page.getByRole("group", { name: "Фільтр за статусом" });
 	await filters.getByRole("button", { name: "Готово" }).click();
 	await page.waitForURL(/status=DONE/);

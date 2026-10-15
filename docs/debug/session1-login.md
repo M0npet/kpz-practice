@@ -36,6 +36,6 @@ Watch expressions evaluated on the paused frame:
 After resume → `HTTP 200`, Content-Type: `application/json; charset=utf-8`
 
 ```
-{"message":"Token successfully created.","data":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IldhbHRlciBXaGl0ZSIsImVtYWlsIjoiYWRtaW5AYWRtaW4uY29tIiwicm9sZSI6IkFETUlOSVNUUkFUT1IiLCJjcmVhdGVkX2F0IjoiMjAyNi0xMC0xNVQxMTowMzo1MC45MzJaIiwiaWF0IjoxNzkyMDY5NzkyLCJleHAiOjE3OTIwNzA2OTJ9.0Ex3oqZfMzga3ZClU03fdeghOUgC032fnM959JoCbGw"}
+{"message":"Token successfully created.","data":"Bearer …"}
 ```
 
